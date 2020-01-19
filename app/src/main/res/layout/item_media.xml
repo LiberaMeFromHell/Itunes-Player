@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/itemLayout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:orientation="vertical"
+    android:elevation="8dp"
+    android:background="@color/colorBackgroundWhite">
+
+    <ImageView
+        android:id="@+id/album"
+        android:layout_width="160dp"
+        android:layout_height="160dp" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="144dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:singleLine="true"
+        android:textSize="16sp"
+        tools:text="Sample Song Name" />
+
+    <TextView
+        android:id="@+id/artist"
+        android:layout_width="144dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:singleLine="true"
+        android:textSize="12sp"
+        tools:text="Sample Artist" />
+
+</LinearLayout>
