@@ -8,10 +8,10 @@ import ru.lm.itunesplayer.model.pojo.ItunesMedia;
 
 /**
  * @author Rustam Galimov (mailto:rustam.galimoff@yandex.ru)
- * @since 20.01.2020
+ * @since 08.02.2020
  */
 
-public interface NetworkReceiver {
+public interface MediaProvider {
 
     void onObserveMediaLiveData(String searchKeyword);
 

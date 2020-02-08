@@ -1,4 +1,4 @@
-package ru.lm.itunesplayer.model.network;
+package ru.lm.itunesplayer.model.network.api;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
