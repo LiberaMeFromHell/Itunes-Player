@@ -42,13 +42,11 @@ import ru.lm.itunesplayer.viewmodel.MediaViewModel;
 
 public class FragmentMedia extends Fragment implements OnMediaSelected {
 
-    private final int MINIMUM_QUERY_LENGTH = 5;
-    private final int QUERY_TIMEOUT = 300;
+    private static final int MINIMUM_QUERY_LENGTH = 5;
+    private static final int QUERY_TIMEOUT = 300;
 
     @BindView(R.id.recyclerView) RecyclerView recyclerView;
     @BindView(R.id.mediaLayout) View mediaLayout;
-
-    private ConnectivityStatus connectivityStatus;
 
     private MediaRecyclerAdapter recyclerAdapter;
     private MediaViewModel viewModel;
@@ -60,7 +58,7 @@ public class FragmentMedia extends Fragment implements OnMediaSelected {
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment_media, container, false);
         ButterKnife.bind(this, view);
-        connectivityStatus = App.getMediaComponent().connectivityStatus();
+        ConnectivityStatus connectivityStatus = App.getMediaComponent().connectivityStatus();
         initRecyclerView();
 
         viewModel = ViewModelProviders.of(this).get(MediaViewModel.class);
