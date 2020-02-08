@@ -10,7 +10,7 @@ import ru.lm.itunesplayer.R;
  * @since 20.01.2020
  */
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements PlayerFragmentRunner {
 
     private FragmentManager fm = this.getSupportFragmentManager();
 
@@ -19,15 +19,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
-            initFragments();
+            initMediaFragments();
         }
     }
 
-    private void initFragments() {
+    private void initMediaFragments() {
         FragmentMedia fragmentMedia = new FragmentMedia();
         fm.beginTransaction()
                 .add(fragmentMedia, "fr")
                 .replace(R.id.frameLayout, fragmentMedia)
+                .commit();
+    }
+
+    public void initPlayerFragment() {
+        FragmentPlayer fragmentPlayer = new FragmentPlayer();
+        fm.beginTransaction()
+                .addToBackStack("fr2")
+                .replace(R.id.frameLayout, fragmentPlayer)
                 .commit();
     }
 }

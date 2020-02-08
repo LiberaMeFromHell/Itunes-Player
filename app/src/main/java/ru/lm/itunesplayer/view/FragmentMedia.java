@@ -85,7 +85,7 @@ public class FragmentMedia extends Fragment implements OnMediaSelected {
     @Override
     public void onItemClicked(ItunesMedia itunesMedia) {
         viewModel.updateTransferData(itunesMedia);
-        runPlayer();
+        ((PlayerFragmentRunner)getActivity()).initPlayerFragment();
     }
 
     @Override
@@ -112,14 +112,5 @@ public class FragmentMedia extends Fragment implements OnMediaSelected {
         }).map(s -> s.trim())
                 .debounce(QUERY_TIMEOUT, TimeUnit.MILLISECONDS)
                 .subscribe(s -> viewModel.getItunesMediaList(s));
-    }
-
-    private void runPlayer() {
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-        FragmentPlayer fragmentPlayer = new FragmentPlayer();
-        fm.beginTransaction()
-                .addToBackStack("fr2")
-                .replace(R.id.frameLayout, fragmentPlayer)
-                .commit();
     }
 }
