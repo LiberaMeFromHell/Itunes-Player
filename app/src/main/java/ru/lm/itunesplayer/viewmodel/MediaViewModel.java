@@ -6,7 +6,9 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 import java.util.List;
 import javax.inject.Inject;
-import ru.lm.itunesplayer.model.network.NetworkReceiver;
+
+import ru.lm.itunesplayer.model.network.MediaProvider;
+import ru.lm.itunesplayer.model.network.api.NetworkReceiver;
 import ru.lm.itunesplayer.model.pojo.ItunesMedia;
 import ru.lm.itunesplayer.model.transferdata.TransferData;
 import ru.lm.itunesplayer.module.App;
@@ -19,23 +21,23 @@ import ru.lm.itunesplayer.module.App;
 public class MediaViewModel extends AndroidViewModel {
 
     @Inject
-    NetworkReceiver mediaReceiver;
+    MediaProvider mediaProvider;
 
     @Inject
     TransferData itunesTransferData;
 
     public MediaViewModel(@NonNull Application application) {
         super(application);
-        mediaReceiver = App.getMediaComponent().injectNetworkReceiver();
+        mediaProvider = App.getMediaComponent().injectMediaProvider();
         itunesTransferData = App.getMediaComponent().injectTransferData();
     }
 
     public void getItunesMediaList(String searchKeyword) {
-        mediaReceiver.onObserveMediaLiveData(searchKeyword);
+        mediaProvider.onObserveMediaLiveData(searchKeyword);
     }
 
     public MutableLiveData<List<ItunesMedia>> getMediaLiveData() {
-        return mediaReceiver.getMediaLiveData();
+        return mediaProvider.getMediaLiveData();
     }
 
     public void updateTransferData(ItunesMedia itunesMedia) {

@@ -4,8 +4,11 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import ru.lm.itunesplayer.model.connectivitystatus.ConnectivityStatus;
-import ru.lm.itunesplayer.model.network.NetworkModule;
-import ru.lm.itunesplayer.model.network.NetworkReceiver;
+import ru.lm.itunesplayer.model.network.MediaProvider;
+import ru.lm.itunesplayer.model.network.MediaProviderModule;
+import ru.lm.itunesplayer.model.network.api.ItunesAPI;
+import ru.lm.itunesplayer.model.network.api.NetworkReceiver;
+import ru.lm.itunesplayer.model.network.api.NetworkReceiverModule;
 import ru.lm.itunesplayer.model.player.MediaPlayer;
 import ru.lm.itunesplayer.model.player.PlayerModule;
 import ru.lm.itunesplayer.model.transferdata.TransferData;
@@ -17,16 +20,18 @@ import ru.lm.itunesplayer.model.transferdata.TransferDataModule;
  */
 
 @Component(modules = {
-        NetworkModule.class,
+        NetworkReceiverModule.class,
         PlayerModule.class,
         AppContextModule.class,
-        TransferDataModule.class})
+        TransferDataModule.class,
+        MediaProviderModule.class})
 
 @Singleton
 public interface MediaComponent {
 
-    NetworkReceiver injectNetworkReceiver();
+    ItunesAPI injectItunesAPI();
     MediaPlayer injectMediaPlayer();
     TransferData injectTransferData();
-    ConnectivityStatus connectivityStatus();
+    ConnectivityStatus injectConnectivityStatus();
+    MediaProvider injectMediaProvider();
 }
