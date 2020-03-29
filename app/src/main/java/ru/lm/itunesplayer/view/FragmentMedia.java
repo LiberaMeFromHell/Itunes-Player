@@ -45,8 +45,10 @@ public class FragmentMedia extends Fragment implements OnMediaSelected {
     private static final int MINIMUM_QUERY_LENGTH = 5;
     private static final int QUERY_TIMEOUT = 300;
 
-    @BindView(R.id.recyclerView) RecyclerView recyclerView;
-    @BindView(R.id.mediaLayout) View mediaLayout;
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
+    @BindView(R.id.mediaLayout)
+    View mediaLayout;
 
     private MediaRecyclerAdapter recyclerAdapter;
     private MediaViewModel viewModel;
@@ -58,7 +60,7 @@ public class FragmentMedia extends Fragment implements OnMediaSelected {
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment_media, container, false);
         ButterKnife.bind(this, view);
-        ConnectivityStatus connectivityStatus = App.getMediaComponent().connectivityStatus();
+        ConnectivityStatus connectivityStatus = App.getMediaComponent().injectConnectivityStatus();
         initRecyclerView();
 
         viewModel = ViewModelProviders.of(this).get(MediaViewModel.class);
@@ -71,7 +73,7 @@ public class FragmentMedia extends Fragment implements OnMediaSelected {
         if (!connectivityStatus.hasConnection()) {
             Log.d("tag", "Snackbar");
             Snackbar.make(mediaLayout, "No internet connection", Snackbar.LENGTH_LONG)
-            .show();
+                    .show();
         }
         return view;
     }
@@ -85,7 +87,7 @@ public class FragmentMedia extends Fragment implements OnMediaSelected {
     @Override
     public void onItemClicked(ItunesMedia itunesMedia) {
         viewModel.updateTransferData(itunesMedia);
-        ((PlayerFragmentRunner)getActivity()).initPlayerFragment();
+        ((PlayerFragmentRunner) getActivity()).initPlayerFragment();
     }
 
     @Override
@@ -94,23 +96,25 @@ public class FragmentMedia extends Fragment implements OnMediaSelected {
         MenuItem searchItem = menu.findItem(R.id.item_search);
         SearchView searchView = (SearchView) searchItem.getActionView();
 
-        Observable.create((ObservableOnSubscribe<String>) emitter -> {
-            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                @Override
-                public boolean onQueryTextSubmit(String query) {
-                    return false;
-                }
-
-                @Override
-                public boolean onQueryTextChange(String newText) {
-                    if (newText.length() >= MINIMUM_QUERY_LENGTH) {
-                        emitter.onNext(newText);
+        Observable.create((ObservableOnSubscribe<String>) emitter ->
+                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        return false;
                     }
-                    return false;
-                }
-            });
-        }).map(s -> s.trim())
+
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+                        if (newText.length() >= MINIMUM_QUERY_LENGTH) {
+                            emitter.onNext(newText);
+                        }
+                        return false;
+                    }
+                })).map(s -> s.trim())
                 .debounce(QUERY_TIMEOUT, TimeUnit.MILLISECONDS)
                 .subscribe(s -> viewModel.getItunesMediaList(s));
+        searchItem.setOnMenuItemClickListener(clickListener -> {
+            return false;
+        } );
     }
 }

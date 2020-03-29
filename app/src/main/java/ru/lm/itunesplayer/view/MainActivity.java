@@ -2,7 +2,9 @@ package ru.lm.itunesplayer.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
+
 import android.os.Bundle;
+
 import ru.lm.itunesplayer.R;
 
 /**
